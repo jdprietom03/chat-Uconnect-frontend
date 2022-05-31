@@ -21,11 +21,25 @@ const Chat = () => {
   const chatBody = useRef();
 
   const sendMessage = (message) => {
-    const data = { ...user, message, room: router.query.chat[0], time: new Date() };
+    const data = {
+      ...user,
+      message,
+      room: router.query.chat[0],
+      time: new Date(),
+    };
     setMessages([...messages, data]);
 
     socket.emit("send", data);
-    axios.post(`${SERVER_URL}/newMessage`, data);
+    axios.post(`${SERVER_URL}/newMessage`, data, {
+      withCredentials: true,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+        "Access-Control-Allow-Headers":
+          "Content-Type, Access-Control-Allow-Headers",
+        "Access-Control-Allow-Credentials": "true",
+      },
+    });
   };
 
   useEffect(() => {
@@ -75,7 +89,6 @@ const Chat = () => {
     loadOldMessages();
 
     setUser(userData);
-
   }, [router.query]);
 
   useEffect(() => {
@@ -87,8 +100,8 @@ const Chat = () => {
       setMessages([...messages, data]);
     });
 
-    if(chatBody.current)
-        chatBody.current.scrollTop = chatBody.current.scrollHeight;
+    if (chatBody.current)
+      chatBody.current.scrollTop = chatBody.current.scrollHeight;
   }, [messages]);
 
   if (router.query.chat === undefined) {
@@ -101,11 +114,11 @@ const Chat = () => {
         <span>Ruta: {router.query.chat[0]}</span>
       </div>
       <div className="chat-body" ref={chatBody}>
-          <Messages messages={messages} user={user.author}/>
+        <Messages messages={messages} user={user.author} />
       </div>
       <div className="message-input">
         <Input sendMessage={sendMessage} />
-      </div> 
+      </div>
     </div>
   );
 };
