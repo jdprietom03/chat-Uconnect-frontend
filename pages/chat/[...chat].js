@@ -8,8 +8,9 @@ import socketIOClient from "socket.io-client";
 import Input from "./../../components/Input";
 import Messages from "./../../components/Messages";
 import axios from "axios";
+import { env } from "process";
 
-const SERVER_URL = process.env.SERVER_URL;
+const SERVER_URL = env.SERVER_URL || "https://app-app-32.herokuapp.com";
 //components
 const socket = socketIOClient(SERVER_URL);
 
@@ -69,7 +70,6 @@ const Chat = () => {
           room: router.query.chat[0],
         })
         .then((response) => {
-            console.log('response: ', SERVER_URL)
           setMessages(response.data);
         });
     loadOldMessages();
