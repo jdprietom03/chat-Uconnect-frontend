@@ -9,7 +9,7 @@ import Input from "./../../components/Input";
 import Messages from "./../../components/Messages";
 import axios from "axios";
 
-const SERVER_URL = "http://localhost:3001";
+const SERVER_URL = process.env.SERVER_URL;
 //components
 const socket = socketIOClient(SERVER_URL);
 
@@ -69,6 +69,7 @@ const Chat = () => {
           room: router.query.chat[0],
         })
         .then((response) => {
+            console.log('response: ', SERVER_URL)
           setMessages(response.data);
         });
     loadOldMessages();
