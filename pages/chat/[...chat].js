@@ -62,9 +62,11 @@ const Chat = () => {
           id: userData.id,
         });
       }
+      else{ 
+        setUser({ author: router.query.chat[1], id: response.data.id });
+      }
       socket.emit("connection");
       socket.emit("join", router.query.chat[0]);
-      setUser({ author: router.query.chat[1], id: response.data.id });
     };
     signIn();
 
