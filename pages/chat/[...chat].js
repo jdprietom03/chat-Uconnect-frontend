@@ -30,16 +30,7 @@ const Chat = () => {
     setMessages([...messages, data]);
 
     socket.emit("send", data);
-    axios.post(`${SERVER_URL}/newMessage`, data, {
-      withCredentials: true,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
-        "Access-Control-Allow-Headers":
-          "Content-Type, Access-Control-Allow-Headers",
-        "Access-Control-Allow-Credentials": "true",
-      },
-    });
+    axios.post(`${SERVER_URL}/newMessage`, data);
   };
 
   useEffect(() => {
